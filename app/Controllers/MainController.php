@@ -1,16 +1,22 @@
-<?php
+<?php namespace Controllers;
 
-namespace Controllers;
+use Core\Controller;
 
-class MainController
+class MainController extends Controller
 {
     public function index()
     {
-        echo 'This is index method!';
+        $this->view->render('main', [
+            'title' => 'Главная страница',
+            'body' => 'This is \'index\' method.',
+        ]);
     }
 
     public function hello()
     {
-        echo 'Hello world!';
+        $this->view->render('main', [
+            'title' => 'Hello world',
+            'body' => 'Hello world',
+        ]);
     }
 }

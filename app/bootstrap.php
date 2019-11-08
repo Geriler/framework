@@ -1,7 +1,6 @@
 <?php
-require_once 'Core/Router.php';
 define('APPPATH', realpath('../app/'));
+require_once APPPATH . '/../vendor/autoload.php';
+use Core\Route;
 
-use Core\Router;
-
-Router::start();
+Route::start();
