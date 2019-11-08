@@ -1,14 +1,17 @@
 <?php namespace Core;
 
+require_once APPPATH . '/routes.php';
+
 class Route
 {
+    private static $routes = [];
+
     static function start()
     {
         $controller = 'MainController';
         $action = 'index';
 
-        $routes = require_once APPPATH . '/routes.php';
-        $currentRoute = substr($_SERVER['REQUEST_URI'], 1);
+        $currentRoute = $_SERVER['REQUEST_URI'];
 
         $route = explode('/', $_SERVER['REQUEST_URI']);
         if (!empty($route[1])) {
@@ -19,7 +22,7 @@ class Route
         }
 
         $isFoundRoute = false;
-        foreach ($routes as $pattern => $route) {
+        foreach (self::$routes as $pattern => $route) {
             preg_match($pattern, $currentRoute, $matches);
             if (!empty($matches)) {
                 $isFoundRoute = true;
@@ -28,7 +31,9 @@ class Route
         }
 
         if ($isFoundRoute) {
-            $controller = explode('\\', $route[0])[1];
+            $class = explode('\\', $route[0]);
+            if (count($class) == 1) $controller = $class[0];
+            else $controller = $class[1];
             $action = $route[1];
         }
 
@@ -60,5 +65,16 @@ class Route
     {
         $view = new View();
         $view->render('errors/404');
+    }
+
+    static function add(string $route, string $class, string $action = null)
+    {
+        $route = "~^\\{$route}$~";
+        if (is_null($action)) {
+            preg_match('/(.*)@(.*)/', $class, $matches);
+            $class = $matches[1];
+            $action = $matches[2];
+        }
+        self::$routes[$route] = [$class, $action];
     }
 }

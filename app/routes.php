@@ -1,7 +1,5 @@
 <?php
 
-use Controllers\MainController;
+use Core\Route;
 
-return [
-    '~^hello$~' => [MainController::class, 'hello'],
-];
+Route::add('/hello', 'MainController@hello');
