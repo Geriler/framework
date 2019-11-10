@@ -6,7 +6,12 @@ class Route
 {
     private static $routes = [];
 
-    static function start()
+    public function __construct()
+    {
+        self::start();
+    }
+
+    private function start()
     {
         $controller = 'MainController';
         $action = 'index';
@@ -37,19 +42,11 @@ class Route
             $action = $route[1];
         }
 
-        preg_match('/(.*)Controller/', $controller, $matches);
-        $modelFile = $matches[1] . 'Model.php';
-        $modelPath = APPPATH . '/Models/';
-        if (file_exists($modelPath . $modelFile)) {
-            require_once $modelPath . $modelFile;
-        }
-
         $controllerFile = $controller . '.php';
         $controllerPath = APPPATH . '/Controllers/';
-        if (file_exists($controllerPath . $controllerFile)) {
-            require_once $controllerPath . $controllerFile;
-        } else {
-            Route::errorPage404();
+        if (!file_exists($controllerPath . $controllerFile)) {
+            self::errorPage404();
+            exit;
         }
 
         $classController = '\\Controllers\\' . $controller;
@@ -57,11 +54,12 @@ class Route
         if (method_exists($controller, $action)) {
             $controller->$action();
         } else {
-            Route::errorPage404();
+            self::errorPage404();
+            exit;
         }
     }
 
-    static function errorPage404()
+    private function errorPage404()
     {
         $view = new View();
         $view->render('errors/404');
