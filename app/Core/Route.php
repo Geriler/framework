@@ -5,6 +5,8 @@ require_once APPPATH . '/routes.php';
 class Route
 {
     private static $routes = [];
+    private static $defaultController = 'MainController';
+    private static $defaultAction = 'index';
 
     public function __construct()
     {
@@ -13,8 +15,8 @@ class Route
 
     private function start()
     {
-        $controller = 'MainController';
-        $action = 'index';
+        $controller = self::$defaultController;
+        $action = self::$defaultAction;
 
         $currentRoute = $_SERVER['REQUEST_URI'];
 
@@ -74,5 +76,15 @@ class Route
             $action = $matches[2];
         }
         self::$routes[$route] = [$class, $action];
+    }
+
+    static function setDefaultController(string $controller)
+    {
+        self::$defaultController = $controller;
+    }
+
+    static function setDefaultAction(string $action)
+    {
+        self::$defaultAction = $action;
     }
 }
