@@ -64,6 +64,7 @@ class Route
     private function errorPage404()
     {
         $view = new View();
+        header('HTTP/2.0 404');
         $view->render('errors/404');
     }
 
