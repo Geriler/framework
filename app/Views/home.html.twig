@@ -1,0 +1,20 @@
+{% extends 'layouts/main.html.twig' %}
+{% block main %}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Главная страница</h1>
+        <p>Это главная страница. Именно эту страницу видят пользователи, когда заходят на сайт.</p>
+        <p>Так же есть другие страницы. Ссылки на них вы найдете ниже или в навигации.</p>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Hello, world!</h2>
+            <p>Так же есть страница "Hello, world!". Перейдите и посмотри что она из себя представляет.</p>
+            <p><a class="btn btn-secondary" href="/hello" role="button">Перейти »</a></p>
+        </div>
+    </div>
+    <hr>
+</div>
+{% endblock %}

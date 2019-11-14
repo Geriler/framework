@@ -1,0 +1,15 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    {% include 'layouts/navigation.html.twig' %}
+    <main role="main">
+        {% block main %}{% endblock %}
+    </main>
+    {% include 'layouts/footer.html.twig' %}
+</body>
+</html>
