@@ -1,6 +1,7 @@
 {
     "require": {
         "twig/twig": "^2.0",
-        "symfony/dotenv": "^4.3"
+        "symfony/dotenv": "^4.3",
+        "ext-pdo": "*"
     }
 }
