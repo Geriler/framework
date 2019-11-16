@@ -23,8 +23,6 @@ class Database
     {
         $sth = $this->pdo->prepare($sql);
         $result = $sth->execute($params);
-        var_dump($sth->errorInfo());
-        exit;
         if ($result === false) return null;
         return $sth->fetchAll(PDO::FETCH_CLASS, $className);
     }
