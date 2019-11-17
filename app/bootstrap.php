@@ -1,6 +1,9 @@
 <?php
-define('ROOTPATH', realpath(__DIR__ . '/../'));
-define('APPPATH', realpath(ROOTPATH . '/app/'));
+require_once 'Core/Paths.php';
+spl_autoload_register(function (string $className) {
+    require_once str_replace('\\', DIRECTORY_SEPARATOR,
+            $className) . '.php';
+});
 require_once ROOTPATH . '/vendor/autoload.php';
 use Core\Route;
 use Symfony\Component\Dotenv\Dotenv;
