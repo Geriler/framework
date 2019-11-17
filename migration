@@ -1,0 +1,41 @@
+<?php
+error_reporting(3);
+require_once 'app/Core/Paths.php';
+require_once ROOTPATH . '/vendor/autoload.php';
+use Symfony\Component\Dotenv\Dotenv;
+$dotenv = new Dotenv();
+$dotenv->load(ROOTPATH . '/.env');
+
+spl_autoload_register(function (string $className) {
+    require_once APPPATH . '/' . str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+});
+
+$pathToMigration = APPPATH . '/Database/Migrations/';
+$migrations = array_diff(scandir($pathToMigration), ['.', '..']);
+foreach ($migrations as $migration) {
+    require_once $pathToMigration . $migration;
+}
+
+$classes = [];
+foreach ($migrations as $migration) {
+    preg_match('/(\d+)_(\w+)/', $migration, $matches);
+    $classes[] = '\\Database\\Migrations\\' . str_replace('_', '', ucwords($matches[2], '_'));
+}
+
+switch($argv[1]) {
+    case 'up':
+        foreach ($classes as $class) {
+            (new $class)->up();
+            echo "Up success: {$class}.\n";
+        }
+        break;
+    case 'down':
+        foreach ($classes as $class) {
+            (new $class)->down();
+            echo "Down success: {$class}.\n";
+        }
+        break;
+    default:
+        echo "Use command 'up' or 'down'.\n";
+        break;
+}
