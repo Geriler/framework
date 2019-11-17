@@ -34,11 +34,12 @@ abstract class Migration
         $string = '';
         foreach ($fields as $name => $params) {
             $constraint = $params['constraint'] != null ? $params['constraint'] : $this->defaultConstraint(strtoupper($params['type']));
+            $constraint = !empty($constraint) ? '(' . $constraint . ')' : '';
             $unsigned = isset($params['unsigned']) && $params['unsigned'] ? 'UNSIGNED' : '';
             $default = isset($params['default']) ? "DEFAULT {$params['default']}" : '';
             $null = isset($params['null']) && !$params['null'] ? 'NOT NULL' : '';
             $auto_increment = isset($params['auto_increment']) && $params['auto_increment'] ? 'AUTO_INCREMENT' : '';
-            $string .= " `{$name}` {$params['type']}({$constraint}) {$unsigned} {$null} {$default} {$auto_increment} ,";
+            $string .= " `{$name}` {$params['type']}{$constraint} {$unsigned} {$null} {$default} {$auto_increment} ,";
         }
         return $string;
     }

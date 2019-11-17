@@ -7,7 +7,7 @@ class AddUsers extends Migration
     public function up()
     {
         $this->addFields([
-            'id' => [
+            'user_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
@@ -18,8 +18,22 @@ class AddUsers extends Migration
                 'constraint' => 255,
                 'null' => false,
             ],
+            'surname' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => false,
+            ],
+            'created_at' => [
+                'type' => 'DATETIME'
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME'
+            ],
+            'deleted_at' => [
+                'type' => 'DATETIME'
+            ],
         ]);
-        $this->primaryKey('id');
+        $this->primaryKey('user_id');
         $this->createTable('users');
     }
 
