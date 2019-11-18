@@ -16,14 +16,24 @@ foreach ($migrations as $migration) {
 switch($argv[1]) {
     case 'up':
         foreach ($classes as $class) {
-            (new $class)->up();
-            echo "Up success: {$class}.\n";
+            try {
+                (new $class)->up();
+                echo "Up success: {$class}.\n";
+            } catch (Exception $exception) {
+                echo $exception->getMessage() . "\r\n";
+                break;
+            }
         }
         break;
     case 'down':
         foreach ($classes as $class) {
-            (new $class)->down();
-            echo "Down success: {$class}.\n";
+            try {
+                (new $class)->down();
+                echo "Down success: {$class}.\n";
+            } catch (Exception $exception) {
+                echo $exception->getMessage() . "\r\n";
+                break;
+            }
         }
         break;
     default:
