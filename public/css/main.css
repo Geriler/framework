@@ -2,6 +2,10 @@ body {
     padding-top: 3.5rem;
 }
 
+main {
+    margin-bottom: 3.5rem;
+}
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -19,10 +23,10 @@ body {
 
 .blog-footer {
     position: fixed;
-    right: 0;
-    left: 0;
     bottom: 0;
-    padding: 2.5rem 0;
+    width: 100%;
+    height: 3.5rem;
+    line-height: 60px;
     color: #999;
     text-align: center;
     background-color: #f9f9f9;
