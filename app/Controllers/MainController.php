@@ -41,6 +41,11 @@ class MainController extends Controller
         header('Location: /');
     }
 
+    public function updateUser($id)
+    {
+        header('Location: /');
+    }
+
     public function deleteUser($id)
     {
         $this->user->delete($id);
