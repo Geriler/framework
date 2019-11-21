@@ -1,6 +1,6 @@
-<?php namespace Database\Migrations;
+<?php namespace App\Database\Migrations;
 
-use Core\Database\Migration;
+use App\Core\Database\Migration;
 
 class AddUsers extends Migration
 {

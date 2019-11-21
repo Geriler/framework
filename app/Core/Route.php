@@ -1,11 +1,13 @@
-<?php namespace Core;
+<?php namespace App\Core;
+
+use App\Controllers\MainController;
 
 require_once APPPATH . '/routes.php';
 
 class Route
 {
     private static $routes = [];
-    private static $defaultController = 'MainController';
+    private static $defaultController = MainController::class;
     private static $defaultAction = 'index';
 
     public function __construct()
@@ -21,12 +23,6 @@ class Route
         $currentRoute = $_SERVER['REQUEST_URI'];
 
         $route = explode('/', $_SERVER['REQUEST_URI']);
-        if (!empty($route[1])) {
-            $controller = ucfirst($route[1]) . 'Controller';
-        }
-        if (!empty($route[2])) {
-            $action = $route[2];
-        }
 
         $isFoundRoute = false;
         foreach (self::$routes as $pattern => $route) {
@@ -38,21 +34,13 @@ class Route
         }
 
         if ($isFoundRoute) {
-            $class = explode('\\', $route[0]);
-            if (count($class) == 1) $controller = $class[0];
-            else $controller = $class[1];
+            $controller = $route[0];
             $action = $route[1];
+        } else if ($currentRoute != '/') {
+            header('Location: /');
         }
 
-        $controllerFile = $controller . '.php';
-        $controllerPath = APPPATH . '/Controllers/';
-        if (!file_exists($controllerPath . $controllerFile)) {
-            self::errorPage404();
-            exit;
-        }
-
-        $classController = '\\Controllers\\' . $controller;
-        $controller = new $classController;
+        $controller = new $controller;
         if (method_exists($controller, $action)) {
             $controller->$action();
         } else {
@@ -68,14 +56,9 @@ class Route
         $view->render('errors/404');
     }
 
-    static function add(string $route, string $class, string $action = null)
+    static function add(string $route, string $class, string $action)
     {
         $route = "~^\\{$route}$~";
-        if (is_null($action)) {
-            preg_match('/(.*)@(.*)/', $class, $matches);
-            $class = $matches[1];
-            $action = $matches[2];
-        }
         self::$routes[$route] = [$class, $action];
     }
 

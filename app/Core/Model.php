@@ -1,6 +1,6 @@
-<?php namespace Core;
+<?php namespace App\Core;
 
-use Core\Database\Database;
+use App\Core\Database\Database;
 
 class Model
 {
