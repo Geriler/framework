@@ -1,8 +1,9 @@
 <?php
 
-use Core\Route;
+use App\Controllers\MainController;
+use App\Core\Route;
 
-Route::setDefaultController('MainController');
+Route::setDefaultController(MainController::class);
 Route::setDefaultAction('index');
 
-Route::add('/hello', 'MainController@hello');
+Route::add('/hello', MainController::class, 'hello');

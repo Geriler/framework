@@ -1,4 +1,4 @@
-<?php namespace Core\Database;
+<?php namespace App\Core\Database;
 
 abstract class Migration
 {

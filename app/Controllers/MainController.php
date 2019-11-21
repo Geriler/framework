@@ -1,7 +1,7 @@
-<?php namespace Controllers;
+<?php namespace App\Controllers;
 
-use Core\Controller;
-use Models\User;
+use App\Core\Controller;
+use App\Models\User;
 
 class MainController extends Controller
 {

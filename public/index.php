@@ -1,4 +1,4 @@
 <?php
 require_once '../autoload.php';
-use Core\Route;
+use App\Core\Route;
 new Route();

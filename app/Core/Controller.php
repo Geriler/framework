@@ -1,4 +1,4 @@
-<?php namespace Core;
+<?php namespace App\Core;
 
 class Controller
 {

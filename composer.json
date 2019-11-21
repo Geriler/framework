@@ -1,7 +1,26 @@
 {
+    "name": "geriler/framework",
+    "type": "project",
+    "license": "MIT",
+    "version": "1.0.0-alpha",
+    "homepage": "https://github.com/Geriler/framework",
+    "minimum-stability": "rc",
+    "authors": [
+        {
+            "name": "Alexander Koltygin",
+            "email": "alexanderkoltygin@gmail.com",
+            "homepage": "https://github.com/Geriler",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "twig/twig": "^2.0",
         "symfony/dotenv": "^4.3",
         "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
     }
 }
