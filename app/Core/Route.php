@@ -36,13 +36,14 @@ class Route
         if ($isFoundRoute) {
             $controller = $route[0];
             $action = $route[1];
+            unset($matches[0]);
         } else if ($currentRoute != '/') {
             header('Location: /');
         }
 
         $controller = new $controller;
         if (method_exists($controller, $action)) {
-            $controller->$action();
+            $controller->$action(...$matches);
         } else {
             self::errorPage404();
             exit;

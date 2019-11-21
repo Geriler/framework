@@ -17,7 +17,10 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <h2>Users</h2>
+            <div class="btn-toolbar justify-content-between mb-2" role="toolbar">
+                <h2>Users</h2>
+                <div><a href="/user/create" class="btn btn-primary">Добавить</a></div>
+            </div>
             <table class="table table-striped">
                 <tr>
                     <th>ID</th>
@@ -25,6 +28,8 @@
                     <th>Surname</th>
                     <th>Created</th>
                     <th>Updated</th>
+                    <th>Deleted</th>
+                    <th>Actions</th>
                 </tr>
                 {% for user in users %}
                     <tr>
@@ -33,11 +38,19 @@
                         <td>{{ user.surname }}</td>
                         <td>{{ user.created_at }}</td>
                         <td>{{ user.updated_at }}</td>
+                        <td>{{ user.deleted_at }}</td>
+                        {% if (user.deleted_at == null) %}
+                            <td>
+                                <a href="/user/update/{{ user.user_id }}" class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                <a href="/user/delete/{{ user.user_id }}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            </td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
-    <hr>
 </div>
 {% endblock %}
