@@ -43,6 +43,11 @@ class MainController extends Controller
 
     public function updateUser($id)
     {
+        $gender = rand(0, 1) ? 'male' : 'female';
+        $this->user->update($id, [
+            'name' => $this->faker->firstName($gender),
+            'surname' => $this->faker->lastName($gender),
+        ]);
         header('Location: /');
     }
 

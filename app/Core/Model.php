@@ -14,6 +14,11 @@ class Model
     protected $updatedAt = 'updated_at';
     protected $deletedAt = 'deleted_at';
 
+    private function getFields()
+    {
+        return $this->fields;
+    }
+
     public function all(bool $deleted = false)
     {
         $database = Database::getInstant();
@@ -67,5 +72,35 @@ class Model
                 ':id' => $id,
             ], static::class);
         }
+    }
+
+    public function update(int $id, array $data)
+    {
+        $database = Database::getInstant();
+        $oldData = $this->get('user_id', $id)[0];
+        $newData = [];
+        foreach ($this->getFields() as $field) {
+            if (isset($data[$field])) {
+                $newData[$field] = '\'' . $data[$field] . '\'';
+            } else {
+                $newData[$field] = '\'' . $oldData->$field . '\'';
+            }
+        }
+        $newData[$this->createdAt] = '\'' . $oldData->{$this->createdAt} . '\'';
+        $newData[$this->updatedAt] = '\'' . date('Y-m-d H:i:s') . '\'';
+        if ($oldData->{$this->deletedAt} == null) {
+            $newData[$this->deletedAt] = 'NULL';
+        } else {
+            $newData[$this->deletedAt] = '\'' . $oldData->{$this->deletedAt} . '\'';
+        }
+        $query = '';
+        foreach ($newData as $key => $value) {
+            $query .= "{$key} = {$value},";
+        }
+        $query = mb_substr($query, 0, -1);
+        $sql = "UPDATE {$this->table} SET {$query} WHERE {$this->id} = :id;";
+        $database->query($sql, [
+            ':id' => $id,
+        ], static::class);
     }
 }
