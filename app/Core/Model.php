@@ -77,7 +77,7 @@ class Model
     public function update(int $id, array $data)
     {
         $database = Database::getInstant();
-        $oldData = $this->get('user_id', $id)[0];
+        $oldData = $this->get($this->id, $id)[0];
         $newData = [];
         foreach ($this->getFields() as $field) {
             if (isset($data[$field])) {
