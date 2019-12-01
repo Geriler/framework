@@ -36,7 +36,19 @@ switch($argv[1]) {
             }
         }
         break;
+    case 'seeds':
+        if ($argv[2] == null) {
+            echo "You need to write class to seeds\r\n";
+            break;
+        }
+        try {
+            (new $argv[2])->run();
+            echo "Seeds {$argv[2]} success\r\n";
+        } catch (Exception $exception) {
+            echo $exception->getMessage() . "\r\n";
+        }
+        break;
     default:
-        echo "Use command 'up' or 'down'.\n";
+        echo "Use command 'up', 'down' or 'seeds'.\n";
         break;
 }
