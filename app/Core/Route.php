@@ -2,8 +2,6 @@
 
 use App\Controllers\MainController;
 
-require_once APPPATH . '/routes.php';
-
 class Route
 {
     private static $routes = [];
@@ -12,6 +10,7 @@ class Route
 
     public function __construct()
     {
+        require_once APPPATH . '/routes.php';
         self::start();
     }
 
@@ -34,8 +33,8 @@ class Route
         }
 
         if ($isFoundRoute) {
-            $controller = $route[0];
-            $action = $route[1];
+            $controller = $route['class'];
+            $action = $route['action'];
             unset($matches[0]);
         } else if ($currentRoute != '/') {
             header('Location: /');
@@ -59,8 +58,10 @@ class Route
 
     static function add(string $route, string $class, string $action)
     {
-        $route = "~^\\{$route}$~";
-        self::$routes[$route] = [$class, $action];
+        self::$routes["~^\\{$route}$~"] = [
+            'class' => $class,
+            'action' => $action
+        ];
     }
 
     static function setDefaultController(string $controller)
