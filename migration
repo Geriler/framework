@@ -10,8 +10,8 @@ foreach ($migrations as $migration) {
 
 $classes = [];
 foreach ($migrations as $migration) {
-    preg_match('/(\d+)_(\w+)/', $migration, $matches);
-    $classes[] = '\\App\\Database\\Migrations\\' . str_replace('_', '', ucwords($matches[2], '_'));
+    preg_match_all('/([A-Za-z_]+)/', $migration, $matches);
+    $classes[] = '\\App\\Database\\Migrations\\' . str_replace('_', '', ucwords($matches[0][count($matches[0]) - 2], '_'));
 }
 
 switch($argv[1]) {
