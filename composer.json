@@ -1,9 +1,10 @@
 {
     "name": "geriler/framework",
+    "type": "project",
     "license": "MIT",
-    "version": "1.0.0-alpha",
     "homepage": "https://github.com/Geriler/framework",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Alexander Koltygin",
