@@ -42,7 +42,10 @@ class Route
 
         $controller = new $controller;
         if (method_exists($controller, $action)) {
-            $controller->$action(...$matches);
+            if (is_array($matches))
+                $controller->$action(...$matches);
+            else
+                $controller->$action();
         } else {
             self::errorPage404();
             exit;
