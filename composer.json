@@ -2,7 +2,7 @@
     "name": "geriler/framework",
     "type": "project",
     "license": "MIT",
-    "version": "1.0.0-alpha",
+    "version": "1.0.0-beta",
     "homepage": "https://github.com/Geriler/framework",
     "minimum-stability": "stable",
     "authors": [
@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "twig/twig": "^2.0",
+        "twig/twig": "^3.0",
         "symfony/dotenv": "^4.3",
         "ext-pdo": "*"
     },
