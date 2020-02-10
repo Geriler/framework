@@ -27,18 +27,16 @@ class Model
         } else {
             $sql = "SELECT * FROM {$this->table} WHERE {$this->deletedAt} IS NULL;";
         }
-        $result = $database->query($sql, [], static::class);
-        return $result;
+        return $database->query($sql, [], static::class);
     }
 
     public function get(string $field, string $value)
     {
         $database = Database::getInstant();
         $sql = "SELECT * FROM {$this->table} WHERE {$field} = :value;";
-        $result = $database->query($sql, [
+        return $database->query($sql, [
             ':value' => $value,
         ], static::class);
-        return $result;
     }
 
     public function insert(array $values)
@@ -54,7 +52,7 @@ class Model
         $newValues[$this->deletedAt] = 'NULL';
         $values = implode(',', $newValues);
         $sql = "INSERT INTO {$this->table} ({$fields}) VALUES ({$values});";
-        $database->query($sql, [], static::class);
+        return $database->query($sql, [], static::class);
     }
 
     public function delete(int $id)
@@ -62,13 +60,13 @@ class Model
         $database = Database::getInstant();
         if ($this->softDelete) {
             $sql = "UPDATE {$this->table} SET {$this->deletedAt} = :time WHERE {$this->id} = :id";
-            $database->query($sql, [
+            return $database->query($sql, [
                 ':time' => date('Y-m-d H:i:s'),
                 ':id' => $id,
             ], static::class);
         } else {
             $sql = "DELETE FROM {$this->table} WHERE {$this->id} = :id";
-            $database->query($sql, [
+            return $database->query($sql, [
                 ':id' => $id,
             ], static::class);
         }
@@ -99,7 +97,7 @@ class Model
         }
         $query = mb_substr($query, 0, -1);
         $sql = "UPDATE {$this->table} SET {$query} WHERE {$this->id} = :id;";
-        $database->query($sql, [
+        return $database->query($sql, [
             ':id' => $id,
         ], static::class);
     }
