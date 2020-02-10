@@ -1,6 +1,6 @@
 <?php namespace App\Core\Database;
 
-use Exception;
+use App\Core\Exception\DatabaseException;
 use PDO;
 
 class Database
@@ -25,8 +25,12 @@ class Database
         $sth = $this->pdo->prepare($sql);
         $result = $sth->execute($params);
         if ($result === false) {
-            $error = $sth->errorInfo();
-            throw new Exception("{$error[0]} {$error[1]} {$error[2]}");
+            if (getenv('DEBUG') === "true") {
+                $error = $sth->errorInfo();
+                throw new DatabaseException("{$error[0]} {$error[1]} {$error[2]}");
+            } else {
+                return null;
+            }
         }
         return $sth->fetchAll(PDO::FETCH_CLASS, $className);
     }
