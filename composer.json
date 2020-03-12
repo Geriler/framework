@@ -19,7 +19,8 @@
         "ext-pdo": "*"
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "kint-php/kint": "^3.3"
     },
     "autoload": {
         "psr-4": {
