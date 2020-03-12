@@ -1,6 +1,9 @@
 <?php namespace App\Core;
 
 use App\Controllers\MainController;
+use App\Core\Exception\ExceptionHandler;
+use App\Core\Exception\PageNotFountException;
+use Exception;
 
 class Route
 {
@@ -32,31 +35,27 @@ class Route
             }
         }
 
-        if ($isFoundRoute) {
-            $controller = $route['class'];
-            $action = $route['action'];
-            unset($matches[0]);
-        } else if ($currentRoute != '/') {
-            header('Location: /');
-        }
+        try {
+            if ($isFoundRoute) {
+                $controller = $route['class'];
+                $action = $route['action'];
+                unset($matches[0]);
+            } else if ($currentRoute != '/') {
+                throw new PageNotFountException;
+            }
 
-        $controller = new $controller;
-        if (method_exists($controller, $action)) {
-            if (is_array($matches))
-                $controller->$action(...$matches);
-            else
-                $controller->$action();
-        } else {
-            self::errorPage404();
-            exit;
+            $controller = new $controller;
+            if (method_exists($controller, $action)) {
+                if (is_array($matches))
+                    $controller->$action(...$matches);
+                else
+                    $controller->$action();
+            } else {
+                throw new PageNotFountException;
+            }
+        } catch (Exception $exception) {
+            ExceptionHandler::handle($exception);
         }
-    }
-
-    private function errorPage404()
-    {
-        $view = new View();
-        header('HTTP/2.0 404');
-        $view->render('errors/404');
     }
 
     static function add(string $route, string $class, string $action, string $name = null)
