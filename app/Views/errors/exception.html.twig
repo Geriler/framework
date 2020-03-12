@@ -1,0 +1,14 @@
+{% extends 'layouts/main.html.twig' %}
+{% block main %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Ошибка</h1>
+            <div class="alert alert-danger">
+                <p>Код ошибки: {{ code }}</p>
+                <p>Сообщение ошибки: {{ message }}</p>
+                <p>{{ trace }}</p>
+            </div>
+            <p>Вернитесь на <a href="/">главную</a>.</p>
+        </div>
+    </div>
+{% endblock %}

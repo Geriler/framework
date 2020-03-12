@@ -6,8 +6,9 @@ use Twig\TwigFunction;
 
 class View
 {
-    public function render(string $template, array $data = null)
+    public function render(string $template, array $data = null, int $code = null)
     {
+        if (!is_null($code)) http_response_code($code);
         $loader = new FilesystemLoader(APPPATH . '/Views/');
         $twig = new Environment($loader);
         $twig->addFunction(new TwigFunction('route_to', function(string $route, string ...$params) {
