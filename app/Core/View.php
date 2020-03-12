@@ -10,8 +10,8 @@ class View
     {
         $loader = new FilesystemLoader(APPPATH . '/Views/');
         $twig = new Environment($loader);
-        $twig->addFunction(new TwigFunction('route_to', function(string $route, string $params = null) {
-            return Route::getRouteByName($route) . '/' . $params;
+        $twig->addFunction(new TwigFunction('route_to', function(string $route, string ...$params) {
+            return Route::getRouteByName($route) . '/' . implode('/', $params);
         }));
         if (is_null($data)) {
             echo $twig->render($template . '.html.twig');
