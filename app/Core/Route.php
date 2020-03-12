@@ -59,12 +59,28 @@ class Route
         $view->render('errors/404');
     }
 
-    static function add(string $route, string $class, string $action)
+    static function add(string $route, string $class, string $action, string $name = null)
     {
-        self::$routes["~^\\{$route}$~"] = [
+        $params = [
             'class' => $class,
             'action' => $action
         ];
+        if (!is_null($name))
+            $params['name'] = $name;
+        self::$routes["~^\\{$route}$~"] = $params;
+    }
+
+    static function getRouteByName(string $name)
+    {
+        $route = '';
+        foreach (self::$routes as $route => $params) {
+            if (array_search($name, $params)) {
+                break;
+            }
+        }
+        preg_match('/\~\^\\\(.*)\$\~/', $route, $matches);
+        $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
+        return $route;
     }
 
     static function setDefaultController(string $controller)

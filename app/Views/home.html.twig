@@ -12,14 +12,14 @@
         <div class="col-md-4">
             <h2>Hello, world!</h2>
             <p>Так же есть страница "Hello, world!". Перейдите и посмотри что она из себя представляет.</p>
-            <p><a class="btn btn-secondary" href="/hello" role="button">Перейти »</a></p>
+            <p><a class="btn btn-secondary" href="{{ route_to('hello') }}" role="button">Перейти »</a></p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="btn-toolbar justify-content-between mb-2" role="toolbar">
                 <h2>Users</h2>
-                <div><a href="/user/create" class="btn btn-primary">Добавить</a></div>
+                <div><a href="{{ route_to('createUser') }}" class="btn btn-primary">Добавить</a></div>
             </div>
             <table class="table table-striped">
                 <tr>
@@ -41,8 +41,8 @@
                         <td>{{ user.deleted_at }}</td>
                         {% if (user.deleted_at == null) %}
                             <td>
-                                <a href="/user/update/{{ user.user_id }}" class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                <a href="/user/delete/{{ user.user_id }}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                <a href="{{ route_to('updateUser', user.user_id) }}" class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                <a href="{{ route_to('deleteUser', user.user_id) }}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </td>
                         {% else %}
                             <td></td>
