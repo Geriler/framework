@@ -9,7 +9,7 @@ class ExceptionHandler
     {
         $exception_class = get_class($exception);
         if (method_exists($exception_class, 'renderError')) {
-            $exception_class::renderError();
+            $exception_class::renderError($exception);
         } else {
             $view = new View();
             $view->render('errors/exception', [

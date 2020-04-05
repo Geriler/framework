@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Core\BaseController;
+use App\Core\Helper;
 use App\Models\User;
 use Faker\Factory;
 use Faker\Generator;
@@ -39,7 +40,7 @@ class MainController extends BaseController
             'name' => $this->faker->firstName($gender),
             'surname' => $this->faker->lastName($gender),
         ]);
-        header('Location: /');
+        Helper::redirect('/');
     }
 
     public function updateUser($id)
@@ -49,12 +50,12 @@ class MainController extends BaseController
             'name' => $this->faker->firstName($gender),
             'surname' => $this->faker->lastName($gender),
         ]);
-        header('Location: /');
+        Helper::redirect('/');
     }
 
     public function deleteUser($id)
     {
         $this->user->delete($id);
-        header('Location: /');
+        Helper::redirect('/');
     }
 }
