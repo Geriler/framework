@@ -1,13 +1,13 @@
 <?php namespace App\Models;
 
-use App\Core\Model;
+use App\Core\BaseModel;
 
-class User extends Model
+class User extends BaseModel
 {
-    public $id = 'user_id';
-    protected $table = 'users';
-    protected $fields = [
+    public string $id = 'user_id';
+    protected string $table = 'users';
+    protected array $fields = [
         'name', 'surname'
     ];
-    protected $softDelete = true;
+    protected bool $softDelete = true;
 }

@@ -7,17 +7,11 @@ use Exception;
 
 class Route
 {
-    private static $routes = [];
-    private static $defaultController = MainController::class;
-    private static $defaultAction = 'index';
+    private static array $routes = [];
+    private static string $defaultController = MainController::class;
+    private static string $defaultAction = 'index';
 
-    public function __construct()
-    {
-        require_once APPPATH . '/routes.php';
-        self::start();
-    }
-
-    private function start()
+    public static function start()
     {
         $controller = self::$defaultController;
         $action = self::$defaultAction;

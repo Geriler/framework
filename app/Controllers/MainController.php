@@ -1,13 +1,14 @@
 <?php namespace App\Controllers;
 
-use App\Core\Controller;
+use App\Core\BaseController;
 use App\Models\User;
 use Faker\Factory;
+use Faker\Generator;
 
-class MainController extends Controller
+class MainController extends BaseController
 {
-    private $user;
-    private $faker;
+    private User $user;
+    private Generator $faker;
 
     public function __construct()
     {

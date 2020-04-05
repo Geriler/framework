@@ -5,7 +5,7 @@ use App\Models\User;
 
 class Users extends Seeder
 {
-    private $userModel;
+    private User $userModel;
 
     public function __construct()
     {

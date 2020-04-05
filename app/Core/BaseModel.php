@@ -2,17 +2,17 @@
 
 use App\Core\Database\Database;
 
-class Model
+abstract class BaseModel
 {
-    protected $id = 'id';
-    protected $table = '';
-    protected $fields = [];
+    protected string $id = 'id';
+    protected string $table = '';
+    protected array $fields = [];
 
-    protected $softDelete = true;
+    protected bool $softDelete = true;
 
-    protected $createdAt = 'created_at';
-    protected $updatedAt = 'updated_at';
-    protected $deletedAt = 'deleted_at';
+    protected string $createdAt = 'created_at';
+    protected string $updatedAt = 'updated_at';
+    protected string $deletedAt = 'deleted_at';
 
     private function getFields()
     {

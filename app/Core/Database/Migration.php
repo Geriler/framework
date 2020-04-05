@@ -2,8 +2,8 @@
 
 abstract class Migration
 {
-    private $primary_key;
-    private $fields;
+    private string $primary_key;
+    private array $fields;
 
     protected function primaryKey(string $key)
     {
