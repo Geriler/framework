@@ -3,6 +3,7 @@
 use App\Controllers\MainController;
 use App\Core\Exception\ExceptionHandler;
 use App\Core\Exception\PageNotFountException;
+use App\Core\Exception\RouteNotFoundException;
 use Exception;
 
 class Route
@@ -66,14 +67,24 @@ class Route
     static function getRouteByName(string $name)
     {
         $route = '';
+        $isFoundRoute = false;
         foreach (self::$routes as $route => $params) {
-            if (array_search($name, $params)) {
+            if ($name == $params['name']) {
+                $isFoundRoute = true;
                 break;
             }
         }
-        preg_match('/\~\^\\\(.*)\$\~/', $route, $matches);
-        $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
-        return $route;
+        try {
+            if ($isFoundRoute) {
+                preg_match('/\~\^\\\(.*)\$\~/', $route, $matches);
+                $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
+                return $route;
+            } else {
+                throw new RouteNotFoundException("Route $name not found");
+            }
+        } catch (Exception $exception) {
+            ExceptionHandler::handle($exception);
+        }
     }
 
     static function setDefaultController(string $controller)
