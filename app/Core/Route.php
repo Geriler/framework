@@ -1,6 +1,5 @@
 <?php namespace App\Core;
 
-use App\Controllers\MainController;
 use App\Core\Exception\ExceptionHandler;
 use App\Core\Exception\PageNotFountException;
 use App\Core\Exception\RouteNotFoundException;
@@ -9,12 +8,12 @@ use Exception;
 class Route
 {
     private static array $routes = [];
-    private static string $defaultController = MainController::class;
+    private static string $defaultController = 'MainController';
     private static string $defaultAction = 'index';
 
     public static function start()
     {
-        $controller = self::$defaultController;
+        $controller = '\\App\\Controllers\\' . self::$defaultController;
         $action = self::$defaultAction;
 
         $currentRoute = $_SERVER['REQUEST_URI'];
@@ -32,7 +31,7 @@ class Route
 
         try {
             if ($isFoundRoute) {
-                $controller = $route['class'];
+                $controller = '\\App\\Controllers\\' . $route['class'];
                 $action = $route['action'];
                 unset($matches[0]);
             } else if ($currentRoute != '/') {
@@ -53,11 +52,12 @@ class Route
         }
     }
 
-    static function add(string $route, string $class, string $action, string $name = null)
+    static function add(string $route, string $class, string $name = null)
     {
+        preg_match('/^(\w+)(\@(\w+)|)$/', $class, $matches);
         $params = [
-            'class' => $class,
-            'action' => $action
+            'class' => $matches[1],
+            'action' => $matches[3] == '' ? 'index' : $matches[3],
         ];
         if (!is_null($name))
             $params['name'] = $name;
