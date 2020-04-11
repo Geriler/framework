@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+require_once 'autoload.php';
+use App\Core\CLI\CLI;
+
+$command = $argv[1] ?? 'list';
+if ($command == 'list') {
+    CLI::listCommands();
+} else {
+    unset($argv[0], $argv[1]);
+    CLI::run($command, array_values($argv));
+}

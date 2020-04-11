@@ -48,4 +48,16 @@ class Database
         }
         return self::$instant;
     }
+
+    public static function getMigrationClasses()
+    {
+        $migrations = array_diff(scandir(PATH_TO_MIGRATION), ['.', '..']);
+        $classes = [];
+        foreach ($migrations as $migration) {
+            require_once APPPATH . '/Database/Migrations/' . $migration;
+            preg_match_all('/([A-Za-z_]+)/', $migration, $matches);
+            $classes[] = '\\App\\Database\\Migrations\\' . str_replace('_', '', ucwords($matches[0][count($matches[0]) - 2], '_'));
+        }
+        return $classes;
+    }
 }
