@@ -20,15 +20,11 @@ class View
         }));
     }
 
-    public function render(string $template, array $data = null, int $code = null)
+    public function render(string $template, array $data = [], int $code = null)
     {
         if (!is_null($code)) http_response_code($code);
         try {
-            if (is_null($data)) {
-                echo $this->twig->render($template . '.html.twig');
-            } else {
-                echo $this->twig->render($template . '.html.twig', $data);
-            }
+            echo $this->twig->render($template . '.html.twig', $data);
         } catch (Exception $exception) {
             ExceptionHandler::handle($exception);
         }
