@@ -15,10 +15,9 @@ class Route
     {
         $controller = '\\App\\Controllers\\' . self::$defaultController;
         $action = self::$defaultAction;
+        $request = new Request();
 
-        $currentRoute = $_SERVER['REQUEST_URI'];
-
-        $route = explode('/', $_SERVER['REQUEST_URI']);
+        $currentRoute = explode('?', $_SERVER['REQUEST_URI'])[0];
 
         $isFoundRoute = false;
         foreach (self::$routes as $pattern => $route) {
@@ -40,10 +39,10 @@ class Route
 
             $controller = new $controller;
             if (method_exists($controller, $action)) {
-                if (is_array($matches))
+                if (!empty($matches))
                     $controller->$action(...$matches);
                 else
-                    $controller->$action();
+                    $controller->$action($request);
             } else {
                 throw new PageNotFountException;
             }

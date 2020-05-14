@@ -2,6 +2,7 @@
 
 use App\Core\BaseController;
 use App\Core\Helper;
+use App\Core\Request;
 use App\Models\User;
 use Faker\Factory;
 use Faker\Generator;
@@ -31,6 +32,15 @@ class MainController extends BaseController
         $this->view->render('hello', [
             'title' => 'Hello, world!',
         ]);
+    }
+
+    public function createUser(Request $request)
+    {
+        $this->user->insert([
+            'name' => $request->get('name'),
+            'surname' => $request->get('surname'),
+        ]);
+        Helper::redirect('/');
     }
 
     public function addUser()
