@@ -4,8 +4,6 @@ use App\Core\CLI\{CLI, Command};
 
 class DatabaseSeedsCommand extends Command
 {
-    public static string $command = 'db:seeds';
-
     static function run(array $arguments)
     {
         $class = '\\App\\Database\\Seeds\\';

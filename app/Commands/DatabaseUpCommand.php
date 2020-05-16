@@ -4,8 +4,6 @@ use App\Core\{CLI\CLI, CLI\Command, Database\Database};
 
 class DatabaseUpCommand extends Command
 {
-    public static string $command = 'db:up';
-
     static function run(array $arguments)
     {
         $classes = Database::getMigrationClasses();
