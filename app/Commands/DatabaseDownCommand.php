@@ -4,8 +4,6 @@ use App\Core\{CLI\CLI, CLI\Command, Database\Database};
 
 class DatabaseDownCommand extends Command
 {
-    public static string $command = 'db:down';
-
     static function run(array $arguments)
     {
         $classes = Database::getMigrationClasses();
