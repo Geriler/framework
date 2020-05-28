@@ -10,7 +10,6 @@ try {
     App\Core\Exception\FatalException::renderError($e);
     exit();
 }
-
 use App\Core\Route;
 require_once APPPATH . '/routes.php';
 Route::start();
