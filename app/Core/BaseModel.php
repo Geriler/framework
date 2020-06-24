@@ -42,14 +42,15 @@ abstract class BaseModel
     public function insert(array $values)
     {
         $database = Database::getInstant();
-        $fields = implode(',', [implode(',', $this->fields), $this->createdAt, $this->updatedAt, $this->deletedAt]);
         $newValues = [];
-        foreach ($this->fields as $field) {
-            $newValues[$field] = '\'' . $values[$field] . '\'';
+        $fields = '';
+        foreach ($values as $field => $value) {
+            $newValues[$field] = '\'' . $value . '\'';
+            $fields = implode(',', [$fields, $field]);
         }
+        $fields = ltrim(implode(',', [$fields, $this->createdAt, $this->updatedAt]), ',');
         $newValues[$this->createdAt] = '\'' . date('Y-m-d H:i:s') . '\'';
         $newValues[$this->updatedAt] = '\'' . date('Y-m-d H:i:s') . '\'';
-        $newValues[$this->deletedAt] = 'NULL';
         $values = implode(',', $newValues);
         $sql = "INSERT INTO {$this->table} ({$fields}) VALUES ({$values});";
         return $database->query($sql, [], static::class);
@@ -75,22 +76,11 @@ abstract class BaseModel
     public function update(int $id, array $data)
     {
         $database = Database::getInstant();
-        $oldData = $this->get($this->id, $id)[0];
         $newData = [];
-        foreach ($this->getFields() as $field) {
-            if (isset($data[$field])) {
-                $newData[$field] = '\'' . $data[$field] . '\'';
-            } else {
-                $newData[$field] = '\'' . $oldData->$field . '\'';
-            }
+        foreach ($data as $field => $value) {
+            $newData[$field] = '\'' . $value . '\'';
         }
-        $newData[$this->createdAt] = '\'' . $oldData->{$this->createdAt} . '\'';
         $newData[$this->updatedAt] = '\'' . date('Y-m-d H:i:s') . '\'';
-        if ($oldData->{$this->deletedAt} == null) {
-            $newData[$this->deletedAt] = 'NULL';
-        } else {
-            $newData[$this->deletedAt] = '\'' . $oldData->{$this->deletedAt} . '\'';
-        }
         $query = '';
         foreach ($newData as $key => $value) {
             $query .= "{$key} = {$value},";

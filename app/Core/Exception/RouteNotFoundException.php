@@ -11,6 +11,6 @@ class RouteNotFoundException extends Exception
         $view->render('errors/route_not_found', [
             'title' => 'Ошибка',
             'message' => $exception->getMessage(),
-        ], 500);
+        ], 400);
     }
 }

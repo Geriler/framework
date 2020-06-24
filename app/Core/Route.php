@@ -1,5 +1,6 @@
 <?php namespace App\Core;
 
+use App\Controllers\MainController;
 use App\Core\Exception\ExceptionHandler;
 use App\Core\Exception\PageNotFountException;
 use App\Core\Exception\RouteNotFoundException;
@@ -8,7 +9,7 @@ use Exception;
 class Route
 {
     private static array $routes = [];
-    private static string $defaultController = 'MainController';
+    private static string $defaultController = MainController::class;
     private static string $defaultAction = 'index';
 
     protected static array $placeholders = [
@@ -19,7 +20,7 @@ class Route
 
     public static function start()
     {
-        $controller = '\\App\\Controllers\\' . self::$defaultController;
+        $controller = self::$defaultController;
         $action = self::$defaultAction;
         $request = new Request();
 
@@ -37,37 +38,61 @@ class Route
 
         try {
             if ($isFoundRoute) {
-                $controller = '\\App\\Controllers\\' . $route['class'];
+                $controller = $route['class'];
                 $action = $route['action'];
                 unset($matches[0]);
             } else if ($currentRoute != '/') {
                 throw new PageNotFountException;
             }
 
-            $controller = new $controller;
-            if (method_exists($controller, $action)) {
-                if (!empty($matches))
-                    $controller->$action(...$matches);
-                else
-                    $controller->$action($request);
+            if (in_array($_SERVER['REQUEST_METHOD'], $route['method'])) {
+                $controller = new $controller;
+                if (method_exists($controller, $action)) {
+                    if (!empty($matches))
+                        $controller->$action(...$matches);
+                    else
+                        $controller->$action($request);
+                } else {
+                    throw new PageNotFountException;
+                }
             } else {
-                throw new PageNotFountException;
+                throw new Exception("This route doesn't support {$_SERVER['REQUEST_METHOD']}. Use " . implode('/', $route['method']));
             }
         } catch (Exception $exception) {
             ExceptionHandler::handle($exception);
         }
     }
 
-    static function add(string $route, string $class, string $name = null)
+    private static function add(string $route, string $class, string $action = null, string $name = null, array $method = [])
     {
-        preg_match('/^(\w+)(\@(\w+)|)$/', $class, $matches);
         $params = [
-            'class' => $matches[1],
-            'action' => $matches[3] == '' ? 'index' : $matches[3],
+            'class' => $class,
+            'action' => $action ?? self::$defaultAction,
+            'method' => $method
         ];
         if (!is_null($name))
             $params['name'] = $name;
         self::$routes["~^\\{$route}$~"] = $params;
+    }
+
+    static function get(string $route, string $class, string $action = null, string $name = null)
+    {
+        self::add($route, $class, $action, $name, ['GET', 'HEAD']);
+    }
+
+    static function post(string $route, string $class, string $action = null, string $name = null)
+    {
+        self::add($route, $class, $action, $name, ['POST']);
+    }
+
+    static function patch(string $route, string $class, string $action = null, string $name = null)
+    {
+        self::add($route, $class, $action, $name, ['PUT', 'PATCH']);
+    }
+
+    static function delete(string $route, string $class, string $action = null, string $name = null)
+    {
+        self::add($route, $class, $action, $name, ['DELETE']);
     }
 
     static function getRouteByName(string $name)

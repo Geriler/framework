@@ -6,7 +6,12 @@ class Request
 
     public function __construct()
     {
-        $this->storage = $this->clean($_REQUEST);
+        if (empty($_REQUEST)) {
+            $data = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $data = $_REQUEST;
+        }
+        $this->storage = $this->clean($data);
     }
 
     public function __get($name)
