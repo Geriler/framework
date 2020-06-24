@@ -11,6 +11,12 @@ class Route
     private static string $defaultController = 'MainController';
     private static string $defaultAction = 'index';
 
+    protected static array $placeholders = [
+        ":any" => "(.*)",
+        ":num" => "(\d+)",
+        ":alpha" => "(\w+)"
+    ];
+
     public static function start()
     {
         $controller = '\\App\\Controllers\\' . self::$defaultController;
@@ -21,6 +27,7 @@ class Route
 
         $isFoundRoute = false;
         foreach (self::$routes as $pattern => $route) {
+            $pattern = strtr($pattern, self::$placeholders);
             preg_match($pattern, $currentRoute, $matches);
             if (!empty($matches)) {
                 $isFoundRoute = true;

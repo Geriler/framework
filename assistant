@@ -2,6 +2,7 @@
 <?php
 
 require_once 'autoload.php';
+
 use App\Core\CLI\CLI;
 
 $command = $argv[1] ?? 'list';
