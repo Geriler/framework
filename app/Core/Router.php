@@ -24,13 +24,6 @@ class Router
 
     private static function match(string $url)
     {
-        if ($url == '/') {
-            return [
-                'class' => self::$defaultController,
-                'action' => self::$defaultAction,
-                'method' => ['GET']
-            ];
-        }
         $isFoundRoute = false;
         foreach (self::$routes as $route => $params) {
             preg_match($route, $url, $matches);
@@ -44,7 +37,7 @@ class Router
         return $isFoundRoute ? $params : null;
     }
 
-    private static function add(string $route, string $class, string $action = null, string $name = null, array $method = [])
+    private static function add(string $route, string $class, string $action = null, string $name = null, array $method = []): void
     {
         $params = [
             'class' => $class,
@@ -56,22 +49,22 @@ class Router
         self::$routes["~^\\{$route}$~"] = $params;
     }
 
-    static function get(string $route, string $class, string $action = null, string $name = null)
+    static function get(string $route, string $class, string $action = null, string $name = null): void
     {
         self::add($route, $class, $action, $name, ['GET', 'HEAD']);
     }
 
-    static function post(string $route, string $class, string $action = null, string $name = null)
+    static function post(string $route, string $class, string $action = null, string $name = null): void
     {
         self::add($route, $class, $action, $name, ['POST']);
     }
 
-    static function patch(string $route, string $class, string $action = null, string $name = null)
+    static function patch(string $route, string $class, string $action = null, string $name = null): void
     {
         self::add($route, $class, $action, $name, ['PUT', 'PATCH']);
     }
 
-    static function delete(string $route, string $class, string $action = null, string $name = null)
+    static function delete(string $route, string $class, string $action = null, string $name = null): void
     {
         self::add($route, $class, $action, $name, ['DELETE']);
     }
@@ -92,20 +85,30 @@ class Router
                 $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
                 return $route;
             } else {
-                throw new RouteNotFoundException("Router $name not found");
+                throw new RouteNotFoundException("Route $name not found");
             }
         } catch (Exception $exception) {
             ExceptionHandler::handle($exception);
         }
     }
 
-    static function setDefaultController(string $controller)
+    static function setDefaultController(string $controller): void
     {
         self::$defaultController = $controller;
     }
 
-    static function setDefaultAction(string $action)
+    static function getDefaultController(): string
+    {
+        return self::$defaultController;
+    }
+
+    static function setDefaultAction(string $action): void
     {
         self::$defaultAction = $action;
+    }
+
+    static function getDefaultAction(): string
+    {
+        return self::$defaultAction;
     }
 }

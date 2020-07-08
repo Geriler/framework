@@ -2,3 +2,4 @@
 *lando*
 vendor/
 .env
+*.cache

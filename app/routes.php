@@ -6,6 +6,7 @@ use App\Core\Router;
 Router::setDefaultController(MainController::class);
 Router::setDefaultAction('index');
 
+Router::get('/', MainController::class, 'index', 'homepage');
 Router::get('/hello', MainController::class, 'hello', 'hello');
 Router::get('/user/create', MainController::class, 'addUser', 'addUser');
 Router::post('/user/create_user', MainController::class, 'createUser', 'createUser');

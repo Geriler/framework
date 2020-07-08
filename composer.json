@@ -22,7 +22,8 @@
   },
   "require-dev": {
     "fzaninotto/faker": "^1.9",
-    "kint-php/kint": "^3.3"
+    "kint-php/kint": "^3.3",
+    "phpunit/phpunit": "^9.2"
   },
   "autoload": {
     "psr-4": {
