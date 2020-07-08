@@ -3,7 +3,7 @@
 use App\Core\View;
 use Exception;
 
-class PageNotFountException extends Exception
+class PageNotFoundException extends Exception
 {
     static function renderError()
     {

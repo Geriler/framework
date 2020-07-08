@@ -1,13 +1,13 @@
 <?php
 
 use App\Controllers\MainController;
-use App\Core\Route;
+use App\Core\Router;
 
-Route::setDefaultController(MainController::class);
-Route::setDefaultAction('index');
+Router::setDefaultController(MainController::class);
+Router::setDefaultAction('index');
 
-Route::get('/hello', MainController::class, 'hello', 'hello');
-Route::get('/user/create', MainController::class, 'addUser', 'addUser');
-Route::post('/user/create_user', MainController::class, 'createUser', 'createUser');
-Route::get('/user/update/(\d+)', MainController::class, 'updateUser', 'updateUser');
-Route::get('/user/delete/(\d+)', MainController::class, 'deleteUser', 'deleteUser');
+Router::get('/hello', MainController::class, 'hello', 'hello');
+Router::get('/user/create', MainController::class, 'addUser', 'addUser');
+Router::post('/user/create_user', MainController::class, 'createUser', 'createUser');
+Router::get('/user/update/(\d+)', MainController::class, 'updateUser', 'updateUser');
+Router::get('/user/delete/(\d+)', MainController::class, 'deleteUser', 'deleteUser');

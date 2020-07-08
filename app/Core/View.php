@@ -15,7 +15,7 @@ class View
         $loader = new FilesystemLoader(APPPATH . '/Views/');
         $this->twig = new Environment($loader);
         $this->twig->addFunction(new TwigFunction('route_to', function(string $route, string ...$params) {
-            $route = Route::getRouteByName($route) . '/' . implode('/', $params);
+            $route = Router::getRouteByName($route) . '/' . implode('/', $params);
             return rtrim($route, '/');
         }));
     }

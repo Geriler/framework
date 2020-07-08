@@ -2,11 +2,10 @@
 
 use App\Controllers\MainController;
 use App\Core\Exception\ExceptionHandler;
-use App\Core\Exception\PageNotFountException;
 use App\Core\Exception\RouteNotFoundException;
 use Exception;
 
-class Route
+class Router
 {
     private static array $routes = [];
     private static string $defaultController = MainController::class;
@@ -18,49 +17,31 @@ class Route
         ":alpha" => "(\w+)"
     ];
 
-    public static function start()
+    public static function run(string $url)
     {
-        $controller = self::$defaultController;
-        $action = self::$defaultAction;
-        $request = new Request();
+        return self::match($url);
+    }
 
-        $currentRoute = explode('?', $_SERVER['REQUEST_URI'])[0];
-
+    private static function match(string $url)
+    {
+        if ($url == '/') {
+            return [
+                'class' => self::$defaultController,
+                'action' => self::$defaultAction,
+                'method' => ['GET']
+            ];
+        }
         $isFoundRoute = false;
-        foreach (self::$routes as $pattern => $route) {
-            $pattern = strtr($pattern, self::$placeholders);
-            preg_match($pattern, $currentRoute, $matches);
+        foreach (self::$routes as $route => $params) {
+            preg_match($route, $url, $matches);
             if (!empty($matches)) {
                 $isFoundRoute = true;
+                unset($matches[0]);
                 break;
             }
         }
-
-        try {
-            if ($isFoundRoute) {
-                $controller = $route['class'];
-                $action = $route['action'];
-                unset($matches[0]);
-            } else if ($currentRoute != '/') {
-                throw new PageNotFountException;
-            }
-
-            if (in_array($_SERVER['REQUEST_METHOD'], $route['method'])) {
-                $controller = new $controller;
-                if (method_exists($controller, $action)) {
-                    if (!empty($matches))
-                        $controller->$action(...$matches);
-                    else
-                        $controller->$action($request);
-                } else {
-                    throw new PageNotFountException;
-                }
-            } else {
-                throw new Exception("This route doesn't support {$_SERVER['REQUEST_METHOD']}. Use " . implode('/', $route['method']));
-            }
-        } catch (Exception $exception) {
-            ExceptionHandler::handle($exception);
-        }
+        $params['params'] = $matches;
+        return $isFoundRoute ? $params : null;
     }
 
     private static function add(string $route, string $class, string $action = null, string $name = null, array $method = [])
@@ -111,7 +92,7 @@ class Route
                 $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
                 return $route;
             } else {
-                throw new RouteNotFoundException("Route $name not found");
+                throw new RouteNotFoundException("Router $name not found");
             }
         } catch (Exception $exception) {
             ExceptionHandler::handle($exception);

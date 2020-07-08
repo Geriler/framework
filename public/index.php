@@ -5,13 +5,12 @@ if (phpversion() < 7.4) {
 }
 
 try {
-    require_once '../autoload.php';
+    require_once __DIR__ . '/../autoload.php';
 } catch (Exception $e) {
-    App\Core\Exception\FatalException::renderError($e);
+    \App\Core\Exception\FatalException::renderError($e);
     exit();
 }
 
-use App\Core\Route;
-
 require_once APPPATH . '/routes.php';
-Route::start();
+$app = new \App\Core\App();
+$app->run();
