@@ -2,7 +2,9 @@
 
 namespace Core;
 
+use App\Core\Exception\RouteNotFoundException;
 use App\Core\Router;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
@@ -15,7 +17,7 @@ class RouterTest extends TestCase
 
     public function testGet()
     {
-        $route = '/get';
+        $route = '/route-for-tests/get';
         $controller = 'MainController';
         $action = 'index';
         Router::get($route, $controller, $action);
@@ -31,7 +33,7 @@ class RouterTest extends TestCase
 
     public function testPost()
     {
-        $route = '/post';
+        $route = '/route-for-tests/post';
         $controller = 'MainController';
         $action = 'index';
         Router::post($route, $controller, $action);
@@ -47,7 +49,7 @@ class RouterTest extends TestCase
 
     public function testPatch()
     {
-        $route = '/patch';
+        $route = '/route-for-tests/patch';
         $controller = 'MainController';
         $action = 'index';
         Router::patch($route, $controller, $action);
@@ -65,21 +67,21 @@ class RouterTest extends TestCase
     {
         $controller = 'MainController.php';
         Router::setDefaultController($controller);
-        $this->assertTrue($controller == Router::getDefaultController());
-        $this->assertNotTrue('' == Router::getDefaultController());
+        $this->assertSame($controller, Router::getDefaultController());
+        $this->assertNotSame('', Router::getDefaultController());
     }
 
     public function testSetDefaultAction()
     {
         $action = 'index';
         Router::setDefaultAction($action);
-        $this->assertTrue($action == Router::getDefaultAction());
-        $this->assertNotTrue('' == Router::getDefaultAction());
+        $this->assertSame($action, Router::getDefaultAction());
+        $this->assertNotSame('', Router::getDefaultAction());
     }
 
     public function testDelete()
     {
-        $route = '/delete';
+        $route = '/route-for-tests/delete';
         $controller = 'MainController';
         $action = 'index';
         Router::delete($route, $controller, $action);
@@ -95,27 +97,33 @@ class RouterTest extends TestCase
 
     public function testGetRouteByName()
     {
-        $route = '/get_by_name';
+        $route = '/route-for-tests/get_by_name';
         $controller = 'MainController';
         $action = 'index';
         $name = 'name';
+        $nameNotFound = 'name-not-found';
         Router::get($route, $controller, $action, $name);
 
-        $testRoute = Router::getRouteByName($name);
-        $this->assertTrue($route == $testRoute);
+        try {
+            $testRoute = Router::getRouteByName($name);
+            $this->assertSame($route, $testRoute);
+            Router::getRouteByName($nameNotFound);
+        } catch (Exception $e) {
+            $this->assertSame(RouteNotFoundException::class, get_class($e));
+        }
     }
 
     public function testRun()
     {
-        $route = '/get_params';
+        $route = '/route-for-tests/get_params';
         $controller = 'MainController';
         $action = 'index';
         $name = 'name';
         Router::get($route, $controller, $action, $name);
 
         $testRoute = Router::run($route);
-        $this->assertTrue($controller == $testRoute['class']);
-        $this->assertTrue($action == $testRoute['action']);
-        $this->assertTrue($name == $testRoute['name']);
+        $this->assertSame($controller, $testRoute['class']);
+        $this->assertSame($action, $testRoute['action']);
+        $this->assertSame($name, $testRoute['name']);
     }
 }

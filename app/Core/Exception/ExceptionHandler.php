@@ -19,5 +19,6 @@ class ExceptionHandler
                 'trace' => $exception->getTraceAsString(),
             ], 500);
         }
+        exit();
     }
 }

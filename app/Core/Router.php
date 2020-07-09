@@ -1,9 +1,7 @@
 <?php namespace App\Core;
 
 use App\Controllers\MainController;
-use App\Core\Exception\ExceptionHandler;
 use App\Core\Exception\RouteNotFoundException;
-use Exception;
 
 class Router
 {
@@ -79,16 +77,12 @@ class Router
                 break;
             }
         }
-        try {
-            if ($isFoundRoute) {
-                preg_match('/\~\^\\\(.*)\$\~/', $route, $matches);
-                $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
-                return $route;
-            } else {
-                throw new RouteNotFoundException("Route $name not found");
-            }
-        } catch (Exception $exception) {
-            ExceptionHandler::handle($exception);
+        if ($isFoundRoute) {
+            preg_match('/\~\^\\\(.*)\$\~/', $route, $matches);
+            $route = preg_replace('/(\/\w+\/\w+)\/(.*)/', '$1', $matches[1]);
+            return $route;
+        } else {
+            throw new RouteNotFoundException("Route $name not found");
         }
     }
 

@@ -23,10 +23,6 @@ class View
     public function render(string $template, array $data = [], int $code = null)
     {
         if (!is_null($code)) http_response_code($code);
-        try {
-            echo $this->twig->render($template . '.html.twig', $data);
-        } catch (Exception $exception) {
-            ExceptionHandler::handle($exception);
-        }
+        echo $this->twig->render($template . '.html.twig', $data);
     }
 }

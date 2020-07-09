@@ -27,15 +27,11 @@ class Database
         $sth = $this->pdo->prepare($sql);
         $result = $sth->execute($params);
         if ($result === false) {
-            try {
-                if (getenv('DEBUG') === "true") {
-                    $error = $sth->errorInfo();
-                    throw new DatabaseException("{$error[0]} {$error[1]} {$error[2]}");
-                } else {
-                    return null;
-                }
-            } catch (Exception $exception) {
-                ExceptionHandler::handle($exception);
+            if (getenv('DEBUG') === "true") {
+                $error = $sth->errorInfo();
+                throw new DatabaseException("{$error[0]} {$error[1]} {$error[2]}");
+            } else {
+                return null;
             }
         }
         return $sth->fetchAll(PDO::FETCH_CLASS, $className);
