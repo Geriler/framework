@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
 use Core\BaseModel;
-use Core\Database\MySQLQueryBuilder;
+use Core\Registry;
 
 class User extends BaseModel
 {
@@ -9,6 +9,7 @@ class User extends BaseModel
 
     public function __construct()
     {
-        parent::__construct(new MySQLQueryBuilder($this->table, self::class));
+        $registry = Registry::getInstant();
+        parent::__construct(new $registry->db_driver($this->table, self::class));
     }
 }
