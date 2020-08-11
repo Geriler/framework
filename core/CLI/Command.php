@@ -1,4 +1,4 @@
-<?php namespace App\Core\CLI;
+<?php namespace Core\CLI;
 
 abstract class Command
 {

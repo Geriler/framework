@@ -1,4 +1,4 @@
-<?php namespace App\Core;
+<?php namespace Core;
 
 abstract class BaseController
 {

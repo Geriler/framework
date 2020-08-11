@@ -1,6 +1,6 @@
-<?php namespace App\Core;
+<?php namespace Core;
 
-use App\Core\Exception\ExceptionHandler;
+use Core\Exception\ExceptionHandler;
 use Exception;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;

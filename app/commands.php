@@ -1,7 +1,7 @@
 <?php
 
 use App\Commands\{DatabaseDownCommand, DatabaseSeedsCommand, DatabaseUpCommand};
-use App\Core\CLI\CLI;
+use Core\CLI\CLI;
 
 CLI::addCommand('db:up', DatabaseUpCommand::class);
 CLI::addCommand('db:down', DatabaseDownCommand::class);

@@ -1,9 +1,8 @@
 <?php
 
 use App\Controllers\MainController;
-use App\Core\Router;
+use Core\Router;
 
-Router::setDefaultController(MainController::class);
 Router::setDefaultAction('index');
 
 Router::get('/', MainController::class, 'index', 'homepage');

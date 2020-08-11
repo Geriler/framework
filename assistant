@@ -3,7 +3,7 @@
 
 require_once 'autoload.php';
 
-use App\Core\CLI\CLI;
+use Core\CLI\CLI;
 
 $command = $argv[1] ?? 'list';
 if ($command == 'list') {

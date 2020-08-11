@@ -1,6 +1,6 @@
 <?php namespace App\Database\Seeds;
 
-use App\Core\Database\Seeder;
+use Core\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {

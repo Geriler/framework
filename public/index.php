@@ -7,10 +7,10 @@ if (phpversion() < 7.4) {
 try {
     require_once __DIR__ . '/../autoload.php';
 } catch (Exception $e) {
-    \App\Core\Exception\FatalException::renderError($e);
+    \Core\Exception\FatalException::renderError($e);
     exit();
 }
 
 require_once APPPATH . '/routes.php';
-$app = new \App\Core\App();
+$app = new \Core\App();
 $app->run();

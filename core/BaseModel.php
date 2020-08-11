@@ -1,6 +1,6 @@
-<?php namespace App\Core;
+<?php namespace Core;
 
-use App\Core\Database\Database;
+use Core\Database\Database;
 
 abstract class BaseModel
 {

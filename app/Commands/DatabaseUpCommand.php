@@ -1,6 +1,6 @@
 <?php namespace App\Commands;
 
-use App\Core\{CLI\CLI, CLI\Command, Database\Database};
+use Core\{CLI\CLI, CLI\Command, Database\Database};
 
 class DatabaseUpCommand extends Command
 {

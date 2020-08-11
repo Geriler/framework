@@ -1,6 +1,6 @@
 <?php namespace App\Commands;
 
-use App\Core\CLI\{CLI, Command};
+use Core\CLI\{CLI, Command};
 
 class DatabaseSeedsCommand extends Command
 {

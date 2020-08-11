@@ -1,8 +1,6 @@
-<?php namespace App\Core\Database;
+<?php namespace Core\Database;
 
-use App\Core\Exception\DatabaseException;
-use App\Core\Exception\ExceptionHandler;
-use Exception;
+use Core\Exception\DatabaseException;
 use PDO;
 
 class Database

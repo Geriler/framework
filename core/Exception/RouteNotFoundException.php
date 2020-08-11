@@ -1,6 +1,6 @@
-<?php namespace App\Core\Exception;
+<?php namespace Core\Exception;
 
-use App\Core\View;
+use Core\View;
 use Exception;
 
 class RouteNotFoundException extends Exception

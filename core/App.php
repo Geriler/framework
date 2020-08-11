@@ -1,7 +1,7 @@
-<?php namespace App\Core;
+<?php namespace Core;
 
-use App\Core\Exception\ExceptionHandler;
-use App\Core\Exception\PageNotFoundException;
+use Core\Exception\ExceptionHandler;
+use Core\Exception\PageNotFoundException;
 use Exception;
 
 class App

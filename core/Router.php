@@ -1,12 +1,10 @@
-<?php namespace App\Core;
+<?php namespace Core;
 
-use App\Controllers\MainController;
-use App\Core\Exception\RouteNotFoundException;
+use Core\Exception\RouteNotFoundException;
 
 class Router
 {
     private static array $routes = [];
-    private static string $defaultController = MainController::class;
     private static string $defaultAction = 'index';
 
     protected static array $placeholders = [
@@ -84,16 +82,6 @@ class Router
         } else {
             throw new RouteNotFoundException("Route $name not found");
         }
-    }
-
-    static function setDefaultController(string $controller): void
-    {
-        self::$defaultController = $controller;
-    }
-
-    static function getDefaultController(): string
-    {
-        return self::$defaultController;
     }
 
     static function setDefaultAction(string $action): void

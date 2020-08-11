@@ -1,6 +1,6 @@
-<?php namespace App\Core\CLI;
+<?php namespace Core\CLI;
 
-use App\Core\Exception\{CommandNotExist, ExceptionHandler};
+use Core\Exception\{CommandNotExist, ExceptionHandler};
 use Exception;
 
 require_once APPPATH . '/commands.php';

@@ -1,6 +1,6 @@
-<?php namespace App\Core\Exception;
+<?php namespace Core\Exception;
 
-use App\Core\CLI\CLI;
+use Core\CLI\CLI;
 use Exception;
 
 class CommandNotExist extends Exception

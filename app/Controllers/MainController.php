@@ -1,8 +1,6 @@
 <?php namespace App\Controllers;
 
-use App\Core\BaseController;
-use App\Core\Helper;
-use App\Core\Request;
+use Core\{BaseController, Helper, Request};
 use App\Models\User;
 use Faker\Factory;
 use Faker\Generator;

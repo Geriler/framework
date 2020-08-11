@@ -2,8 +2,7 @@
 
 namespace Core;
 
-use App\Core\Exception\RouteNotFoundException;
-use App\Core\Router;
+use Core\Exception\RouteNotFoundException;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +11,7 @@ class RouterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        require_once __DIR__ . '/../../app/Core/Paths.php';
+        require_once __DIR__ . '/../../core/Paths.php';
     }
 
     public function testGet()
@@ -61,14 +60,6 @@ class RouterTest extends TestCase
         $this->assertTrue(in_array('PUT', $testRoute['method']));
         $this->assertTrue(in_array('PATCH', $testRoute['method']));
         $this->assertNotTrue(in_array('DELETE', $testRoute['method']));
-    }
-
-    public function testSetDefaultController()
-    {
-        $controller = 'MainController.php';
-        Router::setDefaultController($controller);
-        $this->assertSame($controller, Router::getDefaultController());
-        $this->assertNotSame('', Router::getDefaultController());
     }
 
     public function testSetDefaultAction()
