@@ -23,15 +23,6 @@ class AddUsers extends Migration
                 'constraint' => 255,
                 'null' => false,
             ],
-            'created_at' => [
-                'type' => 'DATETIME'
-            ],
-            'updated_at' => [
-                'type' => 'DATETIME'
-            ],
-            'deleted_at' => [
-                'type' => 'DATETIME'
-            ],
         ]);
         $this->primaryKey('user_id');
         $this->createTable('users');

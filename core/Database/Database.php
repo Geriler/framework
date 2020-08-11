@@ -20,10 +20,10 @@ class Database
         $this->pdo->exec('SET NAMES UTF8');
     }
 
-    public function query(string $sql, array $params = [], string $className = 'stdClass')
+    public function query(string $sql, string $className = 'stdClass')
     {
         $sth = $this->pdo->prepare($sql);
-        $result = $sth->execute($params);
+        $result = $sth->execute();
         if ($result === false) {
             if (getenv('DEBUG') === "true") {
                 $error = $sth->errorInfo();

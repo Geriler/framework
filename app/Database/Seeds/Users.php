@@ -20,10 +20,10 @@ class Users extends Seeder
     {
         for ($i = 0; $i < 50; $i++) {
             $gender = rand(0, 1) ? 'male' : 'female';
-            $this->userModel->insert([
+            $this->userModel->query->insert([
                 'name' => $this->faker->firstName($gender),
                 'surname' => $this->faker->lastName($gender),
-            ]);
+            ])->get();
         }
     }
 }

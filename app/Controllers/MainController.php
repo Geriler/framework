@@ -21,7 +21,7 @@ class MainController extends BaseController
     {
         $this->view->render('home', [
             'title' => 'Главная страница',
-            'users' => $this->user->all(true),
+            'users' => $this->user->query->select()->get(),
         ]);
     }
 
@@ -34,36 +34,36 @@ class MainController extends BaseController
 
     public function createUser(Request $request)
     {
-        $this->user->insert([
+        $this->user->query->insert([
             'name' => $request->get('name'),
             'surname' => $request->get('surname'),
-        ]);
+        ])->get();
         Helper::redirect('/');
     }
 
     public function addUser()
     {
         $gender = rand(0, 1) ? 'male' : 'female';
-        $this->user->insert([
+        $this->user->query->insert([
             'name' => $this->faker->firstName($gender),
             'surname' => $this->faker->lastName($gender),
-        ]);
+        ])->get();
         Helper::redirect('/');
     }
 
     public function updateUser($id)
     {
         $gender = rand(0, 1) ? 'male' : 'female';
-        $this->user->update($id, [
+        $this->user->query->update([
             'name' => $this->faker->firstName($gender),
             'surname' => $this->faker->lastName($gender),
-        ]);
+        ])->where('user_id', $id)->get();
         Helper::redirect('/');
     }
 
     public function deleteUser($id)
     {
-        $this->user->delete($id);
+        $this->user->query->delete()->where('user_id', $id)->get();
         Helper::redirect('/');
     }
 }
